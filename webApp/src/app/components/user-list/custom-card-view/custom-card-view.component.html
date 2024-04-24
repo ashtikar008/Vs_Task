@@ -1,0 +1,45 @@
+<div class="container mt-4">
+    <div class="page-title mt-2">
+        <h2>User list</h2>
+        <mat-form-field class="example-full-width">
+            <mat-label>Search</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input type="search" matInput [(ngModel)]="searchText">
+        </mat-form-field>
+    </div>
+</div>
+<div class="container">
+    <mat-card class="external-card-view mb-4">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12"
+                *ngIf="(jsonData | nameFilter: searchText) && (jsonData | nameFilter: searchText).length > 0">
+                <mat-card class="internal-card-view mt-4 mb-4"
+                    *ngFor="let data of jsonData | nameFilter: searchText; let i=index">
+                    <div class="d-flex align-items-center">
+                        <div class="ml-4" class="img-section">
+                            <img [src]="data.avatar.base64String" alt="Avatar" class="avatar-image">
+                        </div>
+                        <div class="section">
+                            <span class="name-text font-weight-bold" (click)="redirectPage(i)">{{ data.name
+                                }}</span>
+                            <span class="info-msg">(Click on name to edit details)</span>
+                            <div class="row d-flex sub-text w-100">
+                                <span>Age: {{ data.DOB | age }}</span>
+                                <span>Email Address: {{ data.email }}</span>
+                                <span>Country: {{ data.country }}</span>
+                                <div class="mt-2">
+                                    <button mat-flat-button color="warn" (click)="deleteUser(i)">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div *ngIf="!jsonData || jsonData.length === 0">
+                No user data available.
+            </div>
+        </div>
+    </mat-card>
+</div>
